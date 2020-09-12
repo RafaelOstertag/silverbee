@@ -1,0 +1,8 @@
+// clang-format off
+#ifndef SILVERBEE_HH
+#define SILVERBEE_HH
+
+constexpr const char* DATA_DIR{"@CMAKE_INSTALL_PREFIX@/share/silverbee/"};
+
+#endif
+// clang-format on
