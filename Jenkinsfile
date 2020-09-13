@@ -45,7 +45,7 @@ pipeline {
                 script {
                     step([$class                 : "RundeckNotifier",
                           includeRundeckLogs     : true,
-                          jobId                  : "d7101892-0a31-4716-99a1-de3e60570136",
+                          jobId                  : "87a6a0ed-b720-473d-8e80-1fd5ea992e4f",
                           options                : "commit=${env.GIT_COMMIT}",
                           rundeckInstance        : "gizmo",
                           shouldFailTheBuild     : true,
