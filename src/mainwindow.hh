@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_HH
 #define MAINWINDOW_HH
 
+#include <glibmm/dispatcher.h>
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
 #include <gtkmm/image.h>
@@ -9,6 +10,7 @@
 #include <gtkmm/window.h>
 
 #include <memory>
+#include <mutex>
 
 #include "alarmsettingswindow.hh"
 #include "background.hh"
@@ -37,6 +39,7 @@ class MainWindow : public Gtk::Window {
     Gtk::Box overlay_vbox;
     Gtk::Button snooze_button;
     Gtk::Button stop_button;
+    Glib::Dispatcher image_replace_dispatcher;
     std::shared_ptr<Background> background;
 
     void settings_button_clicked();
@@ -47,6 +50,7 @@ class MainWindow : public Gtk::Window {
     bool time_event();
     bool update_background();
     void update_displayed_time();
+    void on_image_replace();
 };
 
 }  // namespace silverbee

@@ -31,7 +31,7 @@ class AlarmSettingsWindow : public Gtk::Window {
     Gtk::SpinButton hour_button;
     Gtk::Label minute_label;
     Gtk::SpinButton minute_button;
-    Gtk::ButtonBox spinner_box;
+    Gtk::Box spinner_box;
     Gtk::ButtonBox days_box;
     Gtk::Box box;
     std::array<Gtk::CheckButton, 7> day_buttons;
