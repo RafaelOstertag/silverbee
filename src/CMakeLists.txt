@@ -14,5 +14,5 @@ set(sources
 add_executable(silverbee ${sources})
 target_compile_options(silverbee PRIVATE ${GTKMM_CFLAGS_OTHER} ${GST_CFLAGS_OTHER})
 target_include_directories(silverbee PUBLIC ${GTKMM_INCLUDE_DIRS} ${GST_INCLUDE_DIRS} ${CMAKE_BINARY_DIR})
-target_link_libraries(silverbee ${GTKMM_LDFLAGS} ${GST_LDFLAGS})
+target_link_libraries(silverbee ${GTKMM_LDFLAGS} ${GST_LDFLAGS} -pthread)
 

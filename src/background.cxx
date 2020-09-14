@@ -15,21 +15,42 @@ Background::Background(const std::string& image_directory, int width,
       width{width},
       height{height},
       current_pixbuf{nullptr},
-      current_image{} {}
+      image_load_mutex{} {}
 
-Gtk::Image& Background::get() {
+void Background::load_new() {
     try {
         auto random_image = get_random_image();
 
-        current_pixbuf =
-            Gdk::Pixbuf::create_from_file(random_image, width, height, false);
-        current_image.set(current_pixbuf);
+        auto file_pixbuf = Gdk::Pixbuf::create_from_file(random_image);
+        auto file_pixbuf_width = file_pixbuf->get_width();
+        auto file_pixbuf_height = file_pixbuf->get_height();
+
+        std::unique_lock<std::mutex> lock{image_load_mutex};
+        current_pixbuf = Gdk::Pixbuf::create(
+            file_pixbuf->get_colorspace(), file_pixbuf->get_has_alpha(),
+            file_pixbuf->get_bits_per_sample(), width, height);
+
+        double scale;
+        if (file_pixbuf_width > file_pixbuf_height) {
+            scale = static_cast<double>(width) /
+                    static_cast<double>(file_pixbuf_width);
+
+        } else {
+            scale = static_cast<double>(height) /
+                    static_cast<double>(file_pixbuf_height);
+        }
+        file_pixbuf->scale(current_pixbuf, 0, 0, width, height, 0.0, 0.0, scale,
+                           scale, Gdk::INTERP_HYPER);
 
     } catch (Glib::FileError& e) {
-        current_image.clear();
+        current_pixbuf =
+            Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, false, 8, width, height);
     }
+}
 
-    return current_image;
+Glib::RefPtr<Gdk::Pixbuf> Background::get() {
+    std::unique_lock<std::mutex> lock{image_load_mutex};
+    return current_pixbuf;
 }
 
 std::string Background::get_random_image() {

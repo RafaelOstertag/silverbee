@@ -11,7 +11,8 @@ namespace silverbee {
 class Background {
    public:
     Background(const std::string& image_directory, int width, int height);
-    Gtk::Image& get();
+    void load_new();
+    Glib::RefPtr<Gdk::Pixbuf> get();
 
    private:
     std::random_device rd;
@@ -20,7 +21,7 @@ class Background {
     int width;
     int height;
     Glib::RefPtr<Gdk::Pixbuf> current_pixbuf;
-    Gtk::Image current_image;
+    std::mutex image_load_mutex;
 
     std::string get_random_image();
 };

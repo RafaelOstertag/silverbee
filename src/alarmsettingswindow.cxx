@@ -35,11 +35,12 @@ AlarmSettingsWindow::AlarmSettingsWindow(const AlarmSettings& alarm_settings)
     button_box.pack_start(set_button, Gtk::PACK_EXPAND_PADDING, 5);
     button_box.pack_end(cancel_button, Gtk::PACK_EXPAND_PADDING, 5);
 
-    spinner_box.pack_end(hour_label, Gtk::PACK_SHRINK);
-    spinner_box.pack_end(hour_button, Gtk::PACK_SHRINK);
+    spinner_box.set_homogeneous(true);
+    spinner_box.pack_start(hour_label, Gtk::PACK_SHRINK);
+    spinner_box.pack_start(hour_button, Gtk::PACK_SHRINK);
 
-    spinner_box.pack_end(minute_label, Gtk::PACK_SHRINK);
-    spinner_box.pack_end(minute_button, Gtk::PACK_SHRINK);
+    spinner_box.pack_start(minute_label, Gtk::PACK_SHRINK);
+    spinner_box.pack_start(minute_button, Gtk::PACK_SHRINK);
 
     std::for_each(day_buttons.begin(), day_buttons.end(), [this](auto& button) {
         days_box.pack_end(button, Gtk::PACK_SHRINK);

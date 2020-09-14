@@ -3,6 +3,7 @@
 #include <glibmm/main.h>
 
 #include <sstream>
+#include <thread>
 
 using namespace silverbee;
 
@@ -19,35 +20,31 @@ MainWindow::MainWindow(state::AlarmContext& alarm_ctx,
       overlay_vbox{},
       snooze_button{"Snooze"},
       stop_button{"Leave me alone"},
+      image_replace_dispatcher{},
       background{background} {
     set_title("SilverBee");
     set_border_width(0);
     set_default_size(400, 500);
     fullscreen();
 
-    Glib::signal_timeout().connect(sigc::mem_fun(this, &MainWindow::time_event),
-                                   250);
-    Glib::signal_timeout().connect(
-        sigc::mem_fun(this, &MainWindow::update_background), 5000);
-
     main_vbox.set_homogeneous(false);
     main_vbox.pack_start(settings_button, Gtk::PACK_SHRINK, 10);
     settings_button.set_halign(Gtk::ALIGN_END);
 
-    main_vbox.pack_end(time, Gtk::PACK_EXPAND_WIDGET, 10);
+    main_vbox.pack_end(time, Gtk::PACK_EXPAND_WIDGET, 0);
 
     overlay_vbox.set_orientation(Gtk::ORIENTATION_VERTICAL);
     overlay_vbox.pack_start(stop_button, Gtk::PACK_EXPAND_WIDGET, 25);
     overlay_vbox.pack_start(snooze_button, Gtk::PACK_EXPAND_WIDGET, 25);
 
-    Gtk::Image& background_image{this->background->get()};
-    overlay.add(background_image);
+    this->background->load_new();
+
+    bg_image.set(this->background->get());
+    overlay.add(bg_image);
     overlay.add_overlay(main_vbox);
     overlay.add_overlay(overlay_vbox);
 
     add(overlay);
-
-    // main_vbox.set_opacity(0.2);
 
     settings_button.signal_clicked().connect(
         sigc::mem_fun(this, &MainWindow::settings_button_clicked));
@@ -60,10 +57,17 @@ MainWindow::MainWindow(state::AlarmContext& alarm_ctx,
     alarm_context.on_alarm_sounding().connect(
         sigc::mem_fun(this, &MainWindow::alarm_sounding));
 
-    background_image.show();
     bg_image.show();
     main_vbox.show_all();
     overlay.show();
+
+    Glib::signal_timeout().connect(sigc::mem_fun(this, &MainWindow::time_event),
+                                   250);
+    Glib::signal_timeout().connect(
+        sigc::mem_fun(this, &MainWindow::update_background), 5000);
+
+    image_replace_dispatcher.connect(
+        sigc::mem_fun(this, &MainWindow::on_image_replace));
 }
 
 bool MainWindow::time_event() {
@@ -74,9 +78,11 @@ bool MainWindow::time_event() {
 }
 
 bool MainWindow::update_background() {
-    Gtk::Image& background_image{background->get()};
-    overlay.remove();
-    overlay.add(background_image);
+    std::thread load_thread([this] {
+        background->load_new();
+        image_replace_dispatcher.emit();
+    });
+    load_thread.detach();
 
     return true;
 }
@@ -116,3 +122,5 @@ void MainWindow::alarm_sounding() { show_alarm_buttons(); }
 void MainWindow::show_alarm_buttons() { overlay_vbox.show_all(); }
 
 void MainWindow::hide_alarm_buttons() { overlay_vbox.hide(); }
+
+void MainWindow::on_image_replace() { bg_image.set(background->get()); }
