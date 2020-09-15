@@ -60,6 +60,10 @@ std::string Background::get_random_image() {
     std::for_each(dir.begin(), dir.end(),
                   [&filenames](auto item) { filenames.push_back(item); });
 
+    if (filenames.size() == 0) {
+        return "";
+    }
+
     std::uniform_int_distribution<> distrib(0, filenames.size() - 1);
     auto random_number = distrib(random);
     return image_directory + "/" + filenames[random_number];
