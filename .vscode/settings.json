@@ -18,5 +18,7 @@
         "thread": "cpp",
         "utility": "cpp",
         "valarray": "cpp"
-    }
+    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
 }
