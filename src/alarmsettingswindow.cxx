@@ -21,6 +21,7 @@ AlarmSettingsWindow::AlarmSettingsWindow(const AlarmSettings& alarm_settings)
                   Gtk::CheckButton("Thu"), Gtk::CheckButton("Fri"),
                   Gtk::CheckButton("Sat")},
       alarm_event{0, 0} {
+    move(0, 0);
     set_border_width(10);
     set_title("Alarm Settings");
 
