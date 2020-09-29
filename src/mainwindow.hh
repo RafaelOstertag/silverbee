@@ -4,6 +4,7 @@
 #include <glibmm/dispatcher.h>
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
+#include <gtkmm/cssprovider.h>
 #include <gtkmm/image.h>
 #include <gtkmm/label.h>
 #include <gtkmm/overlay.h>

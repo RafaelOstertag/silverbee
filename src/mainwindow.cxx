@@ -24,7 +24,6 @@ MainWindow::MainWindow(state::AlarmContext& alarm_ctx,
       background{background} {
     set_title("SilverBee");
     set_border_width(0);
-    set_default_size(400, 500);
     fullscreen();
 
     main_vbox.set_homogeneous(false);
@@ -40,6 +39,7 @@ MainWindow::MainWindow(state::AlarmContext& alarm_ctx,
     this->background->load_new();
 
     bg_image.set(this->background->get());
+
     overlay.add(bg_image);
     overlay.add_overlay(main_vbox);
     overlay.add_overlay(overlay_vbox);
