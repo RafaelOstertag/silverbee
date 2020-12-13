@@ -1,6 +1,7 @@
 #include "mainwindow.hh"
 
 #include <glibmm/main.h>
+#include <gtkmm/cssprovider.h>
 
 #include <sstream>
 #include <thread>
@@ -30,7 +31,7 @@ MainWindow::MainWindow(state::AlarmContext& alarm_ctx,
     main_vbox.pack_start(settings_button, Gtk::PACK_SHRINK, 10);
     settings_button.set_halign(Gtk::ALIGN_END);
 
-    main_vbox.pack_end(time, Gtk::PACK_EXPAND_WIDGET, 0);
+    main_vbox.pack_end(time, Gtk::PACK_EXPAND_PADDING, 0);
 
     overlay_vbox.set_orientation(Gtk::ORIENTATION_VERTICAL);
     overlay_vbox.pack_start(stop_button, Gtk::PACK_EXPAND_WIDGET, 25);
@@ -90,7 +91,7 @@ bool MainWindow::update_background() {
 void MainWindow::update_displayed_time() {
     auto text_builder = std::stringstream{};
     text_builder
-        << "<span font_desc=\"mono 80\" weight=\"bold\" color=\"white\">";
+        << "<span font_desc=\"mono 90\" weight=\"bold\" color=\"white\" background=\"black\">";
     auto current_time = Glib::DateTime::create_now_local();
     text_builder << current_time.format("%T");
     text_builder << "</span>";
