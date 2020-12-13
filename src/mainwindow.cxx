@@ -90,8 +90,8 @@ bool MainWindow::update_background() {
 
 void MainWindow::update_displayed_time() {
     auto text_builder = std::stringstream{};
-    text_builder
-        << "<span font_desc=\"mono 90\" weight=\"bold\" color=\"white\" background=\"black\">";
+    text_builder << "<span font_desc=\"mono 90\" weight=\"bold\" "
+                    "color=\"#ffffff\" background=\"#000000\" bgalpha=\"30%\">";
     auto current_time = Glib::DateTime::create_now_local();
     text_builder << current_time.format("%T");
     text_builder << "</span>";
