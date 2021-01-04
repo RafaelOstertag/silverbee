@@ -9,13 +9,10 @@ using namespace silverbee;
 
 Background::Background(const std::string& image_directory, int width,
                        int height)
-    : rd{},
-      random{rd()},
+    : random{rd()},
       image_directory{image_directory},
       width{width},
-      height{height},
-      current_pixbuf{nullptr},
-      image_load_mutex{} {}
+      height{height} {}
 
 void Background::load_new() {
     try {
@@ -37,7 +34,7 @@ void Background::load_new() {
         file_pixbuf->scale(current_pixbuf, 0, 0, width, height, 0.0, 0.0, scale,
                            scale, Gdk::INTERP_HYPER);
 
-    } catch (Glib::FileError& e) {
+    } catch (const Glib::FileError&) {
         current_pixbuf =
             Gdk::Pixbuf::create(Gdk::COLORSPACE_RGB, false, 8, width, height);
     }
@@ -55,11 +52,11 @@ std::string Background::get_random_image() {
     std::for_each(dir.begin(), dir.end(),
                   [&filenames](auto item) { filenames.push_back(item); });
 
-    if (filenames.size() == 0) {
+    if (filenames.empty()) {
         return "";
     }
 
-    std::uniform_int_distribution<> distrib(0, filenames.size() - 1);
+    std::uniform_int_distribution<> distrib{0, static_cast<int>(filenames.size() - 1)};
     auto random_number = distrib(random);
     return image_directory + "/" + filenames[random_number];
 }

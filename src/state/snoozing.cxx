@@ -1,14 +1,11 @@
 #include "snoozing.hh"
 
-#include <stdexcept>
+#include "state_exception.hh"
 
 using namespace silverbee::state;
 
 Snoozing::Snoozing(silverbee::t_minute snooze_minutes)
-    : timer{},
-      sounding{nullptr},
-      snooze_seconds{snooze_minutes * 60.0},
-      timer_started{false} {
+    : snooze_seconds{snooze_minutes * 60.0} {
     timer.stop();
     timer.reset();
 }
@@ -29,9 +26,9 @@ AlarmState* Snoozing::trigger() {
 }
 
 AlarmState* Snoozing::snooze() {
-    throw std::logic_error("Snoozing does not know transition 'snooze'");
+    throw StateException("Snoozing does not know transition 'snooze'");
 }
 
 AlarmState* Snoozing::stop() {
-    throw std::logic_error("Snoozing does not know transition 'stop'");
+    throw StateException("Snoozing does not know transition 'stop'");
 }

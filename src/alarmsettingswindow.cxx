@@ -5,22 +5,7 @@
 
 using namespace silverbee;
 
-AlarmSettingsWindow::AlarmSettingsWindow(const AlarmSettings& alarm_settings)
-    : set_button{"Set"},
-      cancel_button{"Cancel"},
-      button_box{},
-      hour_label{"Hour"},
-      hour_button{},
-      minute_label{"Minute"},
-      minute_button{},
-      spinner_box{},
-      days_box{},
-      box{Gtk::ORIENTATION_VERTICAL},
-      day_buttons{Gtk::CheckButton("Sun"), Gtk::CheckButton("Mon"),
-                  Gtk::CheckButton("Tue"), Gtk::CheckButton("Wed"),
-                  Gtk::CheckButton("Thu"), Gtk::CheckButton("Fri"),
-                  Gtk::CheckButton("Sat")},
-      alarm_event{0, 0} {
+AlarmSettingsWindow::AlarmSettingsWindow(const AlarmSettings& alarm_settings)   {
     move(0, 0);
     set_border_width(10);
     set_title("Alarm Settings");
@@ -72,7 +57,7 @@ AlarmSettingsWindow::AlarmSettingsWindow(const AlarmSettings& alarm_settings)
 
     box.show();
 
-    add(box);
+    add(box); //NOSONAR
 
     cancel_button.signal_clicked().connect(
         sigc::mem_fun(this, &AlarmSettingsWindow::close_window));

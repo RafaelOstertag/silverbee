@@ -13,15 +13,6 @@ MainWindow::MainWindow(state::AlarmContext& alarm_ctx,
                        std::shared_ptr<Background> background)
     : alarm_context{alarm_ctx},
       alarm_settings_window{alarm_settings},
-      overlay{},
-      bg_image(),
-      main_vbox{Gtk::ORIENTATION_VERTICAL},
-      settings_button{"Settings"},
-      time{"time"},
-      overlay_vbox{},
-      snooze_button{"Snooze"},
-      stop_button{"Leave me alone"},
-      image_replace_dispatcher{},
       background{background} {
     set_title("SilverBee");
     set_border_width(0);
@@ -45,7 +36,7 @@ MainWindow::MainWindow(state::AlarmContext& alarm_ctx,
     overlay.add_overlay(main_vbox);
     overlay.add_overlay(overlay_vbox);
 
-    add(overlay);
+    add(overlay);  // NOSONAR
 
     settings_button.signal_clicked().connect(
         sigc::mem_fun(this, &MainWindow::settings_button_clicked));

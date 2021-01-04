@@ -19,12 +19,11 @@
 
 namespace silverbee {
 
-class MainWindow : public Gtk::Window {
+class MainWindow final : public Gtk::Window {
    public:
     MainWindow(state::AlarmContext& alarm_ctx,
                const AlarmSettings& alarm_settings,
                std::shared_ptr<Background> background);
-    virtual ~MainWindow() = default;
 
     void show_alarm_buttons();
     void hide_alarm_buttons();
@@ -32,15 +31,15 @@ class MainWindow : public Gtk::Window {
    private:
     state::AlarmContext& alarm_context;
     AlarmSettingsWindow alarm_settings_window;
-    Gtk::Overlay overlay;
-    Gtk::Image bg_image;
-    Gtk::Box main_vbox;
-    Gtk::Button settings_button;
-    Gtk::Label time;
-    Gtk::Box overlay_vbox;
-    Gtk::Button snooze_button;
-    Gtk::Button stop_button;
-    Glib::Dispatcher image_replace_dispatcher;
+    Gtk::Overlay overlay{};
+    Gtk::Image bg_image{};
+    Gtk::Box main_vbox{Gtk::ORIENTATION_VERTICAL};
+    Gtk::Button settings_button{"Settings"};
+    Gtk::Label time{"time"};
+    Gtk::Box overlay_vbox{};
+    Gtk::Button snooze_button{"Snooze"};
+    Gtk::Button stop_button{"Leave me alone"};
+    Glib::Dispatcher image_replace_dispatcher{};
     std::shared_ptr<Background> background;
 
     void settings_button_clicked();

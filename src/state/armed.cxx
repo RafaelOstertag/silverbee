@@ -2,11 +2,9 @@
 
 #include <glibmm/datetime.h>
 
-#include <stdexcept>
+#include "state_exception.hh"
 
 using namespace silverbee::state;
-
-Armed::Armed() : alarm_settings{}, sounding{nullptr} {}
 
 AlarmState* Armed::trigger() {
     auto current_time = Glib::DateTime::create_now_local();
@@ -21,9 +19,9 @@ AlarmState* Armed::trigger() {
 }
 
 AlarmState* Armed::snooze() {
-    throw std::logic_error("Armed does not know transition 'snooze'");
+    throw StateException("Armed does not know transition 'snooze'");
 }
 
 AlarmState* Armed::stop() {
-    throw std::logic_error("Armed does not know transition 'stop'");
+    throw StateException("Armed does not know transition 'stop'");
 }

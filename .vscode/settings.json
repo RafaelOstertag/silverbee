@@ -17,7 +17,8 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "utility": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "stdexcept": "cpp"
     },
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true

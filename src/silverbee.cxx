@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     auto rectangle = default_screen->get_monitor_workarea(
         default_screen->get_primary_monitor());
 
-    std::shared_ptr<silverbee::Background> background{new silverbee::Background(
+    auto background{std::make_shared<silverbee::Background>(
         data_dir + "/background/", rectangle.get_width(),
         rectangle.get_height())};
     silverbee::MainWindow mainWindow{alarm_context, alarm_settings, background};

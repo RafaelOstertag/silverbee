@@ -16,26 +16,29 @@
 namespace silverbee {
 using alarm_updated_event = sigc::signal<void, const AlarmSettings&>;
 
-class AlarmSettingsWindow : public Gtk::Window {
+class AlarmSettingsWindow final: public Gtk::Window {
    public:
-    AlarmSettingsWindow(const AlarmSettings& alarm_settings);
-    virtual ~AlarmSettingsWindow() = default;
+    explicit AlarmSettingsWindow(const AlarmSettings& alarm_settings);
 
     alarm_updated_event& on_alarm_updated() { return alarm_updated; }
 
    private:
-    Gtk::Button set_button;
-    Gtk::Button cancel_button;
-    Gtk::ButtonBox button_box;
-    Gtk::Label hour_label;
-    Gtk::SpinButton hour_button;
-    Gtk::Label minute_label;
-    Gtk::SpinButton minute_button;
-    Gtk::Box spinner_box;
-    Gtk::ButtonBox days_box;
-    Gtk::Box box;
-    std::array<Gtk::CheckButton, 7> day_buttons;
-    AlarmSettings alarm_event;
+    Gtk::Button set_button{"Set"};
+    Gtk::Button cancel_button{"Cancel"};
+    Gtk::ButtonBox button_box{};
+    Gtk::Label hour_label{"Hour"};
+    Gtk::SpinButton hour_button{};
+    Gtk::Label minute_label{"Minute"};
+    Gtk::SpinButton minute_button{};
+    Gtk::Box spinner_box{};
+    Gtk::ButtonBox days_box{};
+    Gtk::Box box{Gtk::ORIENTATION_VERTICAL};
+    std::array<Gtk::CheckButton, 7> day_buttons{
+        Gtk::CheckButton("Sun"), Gtk::CheckButton("Mon"),
+        Gtk::CheckButton("Tue"), Gtk::CheckButton("Wed"),
+        Gtk::CheckButton("Thu"), Gtk::CheckButton("Fri"),
+        Gtk::CheckButton("Sat")};
+    AlarmSettings alarm_event{0,0};
     alarm_updated_event alarm_updated;
 
     void close_window() { hide(); }
