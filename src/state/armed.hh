@@ -7,14 +7,11 @@
 
 namespace silverbee {
 namespace state {
-class Armed : public AlarmState {
+class Armed final : public AlarmState {
    public:
-    Armed();
-    virtual ~Armed() = default;
-
-    virtual AlarmState* trigger();
-    virtual AlarmState* snooze();
-    virtual AlarmState* stop();
+    AlarmState* trigger() override;
+    AlarmState* snooze() override;
+    AlarmState* stop() override;
 
     void wire(Sounding* sounding_state) { sounding = sounding_state; }
 
@@ -23,8 +20,8 @@ class Armed : public AlarmState {
     }
 
    private:
-    silverbee::AlarmSettings alarm_settings;
-    Sounding* sounding;
+    silverbee::AlarmSettings alarm_settings{};
+    Sounding* sounding{nullptr};
 };
 }  // namespace state
 }  // namespace silverbee

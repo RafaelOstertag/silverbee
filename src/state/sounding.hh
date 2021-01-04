@@ -10,27 +10,27 @@ namespace silverbee {
 namespace state {
 
 using alarm_sounding_event = sigc::signal<void>;
-class Sounding : public AlarmState {
+class Sounding final : public AlarmState {
    public:
-    Sounding(const std::string& sound_filename);
-    virtual ~Sounding() = default;
-    virtual AlarmState* trigger();
-    virtual AlarmState* snooze();
-    virtual AlarmState* stop();
+    explicit Sounding(const std::string& sound_filename);
+
+    AlarmState* trigger() override;
+    AlarmState* snooze() override;
+    AlarmState* stop() override;
 
     void wire(AlarmState* snoozing_state, AlarmState* armed_state) {
         snoozing = snoozing_state;
         armed = armed_state;
     }
 
-    alarm_sounding_event on_alarm_sounding() { return alarm_sounding; }
+    alarm_sounding_event on_alarm_sounding() const { return alarm_sounding; }
 
    private:
-    AlarmState* snoozing;
-    AlarmState* armed;
+    AlarmState* snoozing{nullptr};
+    AlarmState* armed{nullptr};
     silverbee::Sound sound;
-    alarm_sounding_event alarm_sounding;
-    bool playing_sound;
+    alarm_sounding_event alarm_sounding{};
+    bool playing_sound{false};
 
     void play_sound();
     void stop_sound();

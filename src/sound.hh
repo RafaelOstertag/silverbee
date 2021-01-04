@@ -6,19 +6,20 @@
 #include <string>
 
 namespace silverbee {
-class Sound {
+class Sound final {
    public:
-    Sound(const std::string& filename);
+    explicit Sound(const std::string& filename);
     ~Sound();
     Sound(const Sound&) = delete;
-
+    Sound& operator=(const Sound&) = delete;
+    
     void play();
     void stop();
 
    private:
-    std::string url;
-    GstElement* play_ptr;
-    GstBus* bus;
+    std::string url{"file://"};
+    GstElement* play_ptr{nullptr};
+    GstBus* bus{nullptr};
 };
 }  // namespace silverbee
 

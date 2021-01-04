@@ -5,7 +5,7 @@
 using namespace silverbee;
 
 namespace {
-gboolean bus_callback(GstBus* bus, GstMessage* message, gpointer user_data) {
+gboolean bus_callback(GstBus*, GstMessage* message, gpointer user_data) {
     if (GST_MESSAGE_TYPE(message) == GST_MESSAGE_EOS) {
         gst_element_set_state(GST_ELEMENT(user_data), GST_STATE_NULL);
         gst_element_set_state(GST_ELEMENT(user_data), GST_STATE_PLAYING);
@@ -15,10 +15,7 @@ gboolean bus_callback(GstBus* bus, GstMessage* message, gpointer user_data) {
 }
 }  // namespace
 
-Sound::Sound(const std::string& filename)
-    : url{"file://"}, play_ptr{nullptr}, bus{nullptr} {
-    url += filename;
-}
+Sound::Sound(const std::string& filename) { url += filename; }
 
 Sound::~Sound() { stop(); }
 

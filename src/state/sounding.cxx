@@ -7,10 +7,7 @@
 using namespace silverbee::state;
 
 Sounding::Sounding(const std::string& sound_filename)
-    : snoozing{nullptr},
-      armed{nullptr},
-      sound{sound_filename},
-      playing_sound{false} {}
+    : sound{sound_filename} {}
 
 AlarmState* Sounding::trigger() {
     play_sound();

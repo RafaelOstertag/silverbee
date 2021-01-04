@@ -8,22 +8,21 @@
 
 namespace silverbee {
 namespace state {
-class Snoozing : public AlarmState {
+class Snoozing final : public AlarmState {
    public:
-    Snoozing(silverbee::t_minute snooze_minutes = 5);
-    virtual ~Snoozing() = default;
+    explicit Snoozing(silverbee::t_minute snooze_minutes = 5);
 
-    virtual AlarmState* trigger();
-    virtual AlarmState* snooze();
-    virtual AlarmState* stop();
+    AlarmState* trigger() override;
+    AlarmState* snooze() override;
+    AlarmState* stop() override;
 
     void wire(AlarmState* sounding_state) { sounding = sounding_state; }
 
    private:
-    Glib::Timer timer;
-    AlarmState* sounding;
+    Glib::Timer timer{};
+    AlarmState* sounding{nullptr};
     double snooze_seconds;
-    bool timer_started;
+    bool timer_started{false};
 };
 }  // namespace state
 

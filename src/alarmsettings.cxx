@@ -29,9 +29,9 @@ Glib::ustring get_silverbee_config_file_path() {
 }  // namespace
 
 AlarmSettings::AlarmSettings(t_hour h, t_minute m, std::vector<DAY> d)
-    : hour{h}, minute{m}, snooze{5}, days{0} {
+    : hour{h}, minute{m} {
     days.reset();
-    std::for_each(d.begin(), d.end(), [this](DAY _d) { days.set(_d, true); });
+    std::for_each(d.begin(), d.end(), [this](DAY _d) { days.set(static_cast<int>(_d), true); });
 }
 
 void AlarmSettings::save() const {
@@ -64,12 +64,11 @@ void AlarmSettings::load() {
             key_file.get_uint64(CONFIG_ALARM_SECTION, CONFIG_HOUR));
         minute = static_cast<t_minute>(
             key_file.get_uint64(CONFIG_ALARM_SECTION, CONFIG_MINUTE));
-        days = std::bitset<7>{static_cast<unsigned long>(
-            key_file.get_uint64(CONFIG_ALARM_SECTION, CONFIG_DAYS))};
+        days = std::bitset<7>{key_file.get_uint64(CONFIG_ALARM_SECTION, CONFIG_DAYS)};
         snooze = static_cast<t_minute>(
             key_file.get_uint64(CONFIG_ALARM_SECTION, CONFIG_SNOOZE));
 
-    } catch (Glib::Error& e) {
+    } catch (const Glib::Error& e) {
         std::cerr << "Cannot load settings file " << settings_file_path << ": "
                   << e.what() << "\n";
         std::cerr << "Load default settings instead\n";
